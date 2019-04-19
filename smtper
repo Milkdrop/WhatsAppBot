@@ -1,0 +1,18 @@
+set timeout 20
+set from [lindex $argv 0]
+set to [lindex $argv 1]
+set data [lindex $argv 2]
+
+spawn telnet mail.smtp2go.com 2525
+
+send "EHLO\r"
+send "AUTH LOGIN\r"
+send "b64encodedUNAME\r"
+send "b64encodedPASS\r"
+send "MAIL FROM: <$from>\r"
+send "RCPT TO: <$to>\r"
+send "DATA\r"
+send "$data\r"
+send ".\r"
+expect "OK"
+send "QUIT\r"
